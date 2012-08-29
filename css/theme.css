@@ -1,3 +1,12 @@
-.corpodate-container .disabled{color: #444; cursor: default;}
-.corpodate-container{display: none;position: absolute;background: #eee;border: 1px solid #ccc;}
-.selected{background: #ddd;}
+body{
+	font:13px Helvetica, arial, freesans, clean, sans-serif;
+	background: #eee;
+	color:#555;
+}
+#container{
+	margin:0 auto;
+	width: 50%;
+	background: white;
+	border:1px solid #aaa;
+	padding: 10px;
+}
