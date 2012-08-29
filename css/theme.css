@@ -1,0 +1,3 @@
+.corpodate-container .disabled{color: #444; cursor: default;}
+.corpodate-container{display: none;position: absolute;background: #eee;border: 1px solid #ccc;}
+.selected{background: #ddd;}

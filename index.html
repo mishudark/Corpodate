@@ -1,0 +1,21 @@
+<html>
+<head>
+	<title>Corpodate</title>
+	<script src="./js/jquery.js" type="text/javascript"></script>
+	<script src="./js/corpodate.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="./css/theme.css"/>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#widget-date').Corpodate({
+				validinit : '2012-5-19',
+				initrange: '2012-8-20',
+				endrange : '2012-8-26'
+			});
+		});
+	</script>
+</head>
+<body>
+	<div id="widget-date"></div>
+</body>
+</html>
