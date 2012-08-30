@@ -43,11 +43,12 @@
     			var curr_year = d.getFullYear();
     			return (curr_date<10?"0":"")+curr_date + "/" + (curr_month<10?"0":"") + curr_month + "/" + curr_year;
   		};
-  		setDate = function(valueA,valueB){
-					var dateA = $('.init-week-'+valueA).val();		
-					var dateB = $('.end-week-'+valueB).val();
-					$('#txt-initdate').val(formatDate(dateA));
-					$('#txt-enddate').val(formatDate(dateB));
+  		setTextDate = function(id,valueA,valueB){
+  			
+					var dateA = $(id+' .init-week-'+valueA).val();		
+					var dateB = $(id+' .end-week-'+valueB).val();
+					$(id+' .txt-initdate').val(formatDate(dateA));
+					$(id+' .txt-enddate').val(formatDate(dateB));
 
   		};
 
@@ -67,7 +68,7 @@
 
 		  	var element = $('<div>').addClass('range-dates').html(formatDate(opt.initrange)+" - "+formatDate(opt.endrange));
 
-		  	element.click(function(){$('.corpodate-container').show();});
+		  	element.click(function(){$('#'+$(obj).attr('id')+' .corpodate-container').show();});
 
 		  	var calendar = $("<div>").addClass('corpodate-container');
 		  	var ulquarter = $("<ul>").addClass('quarter-ul');
@@ -103,7 +104,7 @@
 							if(statusweek=='enabled'){
 								active = true;
 							}
-			  			$("<a>").attr({'href':'javascript:void(0)','class': ('week-selection weekof-quarter'+quarter+' weekof-'+options.datelocale.month_names_short[i]+" "+statusweek),'id':'week-'+weekdata.week}).text("Week "+weekdata.week).appendTo(liweek);
+			  			$("<a>").attr({'href':'javascript:void(0)','class': ('week-selection weekof-quarter'+quarter+' weekof-'+options.datelocale.month_names_short[i]+" "+statusweek)+' week-'+weekdata.week,'id':'week-'+weekdata.week}).text("Week "+weekdata.week).appendTo(liweek);
 			  			liweek.appendTo(ulweek);	
 			  		}		  		
 		  			dayofweek = addDays(dayofweek,+7);
@@ -126,13 +127,13 @@
 		  	}
 
 		  	formsearch = $("<div>");
-		  	$("<input>").attr({'type':'input','class':'inputdate','id':'txt-initdate'}).val(formatDate(idate)).appendTo(formsearch);
-				$("<input>").attr({'type':'input','class':'inputdate','id':'txt-enddate'}).val(formatDate(fdate)).appendTo(formsearch);	
+		  	$("<input>").attr({'type':'input','class':'inputdate txt-initdate'}).val(formatDate(idate)).appendTo(formsearch);
+				$("<input>").attr({'type':'input','class':'inputdate txt-enddate'}).val(formatDate(fdate)).appendTo(formsearch);	
 				var search = $("<input>").attr({'type':'button','class':'searchdate','id':'search-date'}).val("Search").appendTo(formsearch);	
 
 		  	search.click(function(){
 		  		$('.corpodate-container').hide();
-					$('.range-dates').html($('#txt-initdate').val()+" - "+ $("#txt-enddate").val());
+					$('#'+$(obj).attr('id')+' .range-dates').html($('#'+$(obj).attr('id')+' .txt-initdate').val()+" - "+ $('#'+$(obj).attr('id')+' .txt-enddate').val());
 		  	});
 
 		  	formsearch.appendTo(calendar);
@@ -146,25 +147,25 @@
 		  	var dateB = null;
 		  	var valueB = 0;
 		  	
-		  	$('.month-selection.enabled').live("click",function(){
+		  	$('#'+$(obj).attr('id')+' .month-selection.enabled').live("click",function(){
 						$('.week-selection.selected').removeClass('selected');
 		  			$('.weekof-'+$(this).attr('id')+'.enabled').addClass('selected');
 		  			valueA =  $('.value-'+$('.weekof-'+$(this).attr('id')+".enabled:first").attr('id')).val();
 		  			valueB = 	$('.value-'+$('.weekof-'+$(this).attr('id')+".enabled:last").attr('id')).val();
 		  			if(typeof valueA!="undefined")
-		  				setDate(valueA,valueB);
+		  				setTextDate('#'+$(obj).attr('id'),valueA,valueB);
 		  	});
 
-		  	$('.quarter-selection.enabled').live("click",function(){
+		  	$('#'+$(obj).attr('id')+' .quarter-selection.enabled').live("click",function(){
 						$('.week-selection.selected').removeClass('selected');
 		  			$('.weekof-'+$(this).attr('id')+'.enabled').addClass('selected');
 		  			valueA =  $('.value-'+$('.weekof-'+$(this).attr('id')+".enabled:first").attr('id')).val();
 		  			valueB = 	$('.value-'+$('.weekof-'+$(this).attr('id')+".enabled:last").attr('id')).val();
 		  			if(typeof valueA!="undefined")
-		  				setDate(valueA,valueB);
+		  				setTextDate('#'+$(obj).attr('id'),valueA,valueB);
 		  	});
 
-		  	$('.week-selection.enabled').live("click",function(){
+		  	$('#'+$(obj).attr('id')+' .week-selection.enabled').live("click",function(){
 		  		if(click){
 		  				$('.week-selection.selected').removeClass('selected');
 		  				valueA = $('.value-'+$(this).attr('id')).val();
@@ -183,11 +184,11 @@
 			  			valueB = tmp;
 			  		}
 			  		for(i=parseInt(valueA);i<=parseInt(valueB);i++){
-			  			$('#week-'+i).addClass('selected');
+			  			$('#'+$(obj).attr('id')+' .week-'+i).addClass('selected');
 			  		}
 		  		}
 		  		if(click){
-		  			setDate(valueA,valueB);
+		  			setTextDate('#'+$(obj).attr('id'),valueA,valueB);
 		  		}
 		  	});
 

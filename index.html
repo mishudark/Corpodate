@@ -9,12 +9,17 @@
 
 	<script type="text/javascript">
 		$(document).ready(function(){
-			var calendar = $('#widget-date').Corpodate({
+			$('#widget-date').Corpodate({
 				validinit : '2012-5-19',
 				initrange: '2012-8-20',
 				endrange : '2012-8-26'
 			});
-			console.log(calendar);
+
+			$('#widget-date-2').Corpodate({
+				validinit : '2012-5-19',
+				initrange: '2012-8-20',
+				endrange : '2012-8-26'
+			});
 		});
 	</script>
 </head>
@@ -24,6 +29,9 @@
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce adipiscing lacinia sapien, in congue tortor lacinia ut. Aenean et ante nec odio lacinia egestas. Nam placerat nulla id nisi facilisis lobortis mattis non lacus. Mauris euismod arcu iaculis nisi molestie tempus. Aenean a pretium metus. Nam sit amet lorem leo, vel tempus lectus. Nunc tempor, quam in accumsan volutpat, orci erat accumsan dolor, sit amet tempor mi nisl quis turpis. Etiam nec augue lacus. Morbi ac nibh et ligula ultrices aliquet. Nullam nunc sapien, dignissim a fermentum vitae, elementum ut dui. Vivamus in semper quam. Aliquam tincidunt erat at arcu ultricies lacinia.</p>
 
 		<p>Sed tincidunt dapibus ligula sed posuere. Ut vitae fringilla lectus. Sed sed magna ante, id adipiscing nisl. Duis vel lorem nibh. Integer aliquet vulputate hendrerit. Etiam tincidunt erat sit amet turpis pretium sodales nec at ante. Aliquam eget neque ac sem aliquet posuere ac a lectus. Sed vulputate mi in massa sodales a congue magna lacinia. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Ut ac arcu in sem mollis imperdiet. Maecenas feugiat blandit enim, iaculis feugiat purus congue eget. Vivamus nunc leo, ullamcorper eget viverra ut, ultricies et enim. Quisque tempor tellus sed justo euismod hendrerit.</p>
+
+		<div id="widget-date-2"></div>
+
 	</div>
 </body>
 </html>
