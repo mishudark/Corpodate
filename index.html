@@ -8,11 +8,15 @@
 	
 
 	<script type="text/javascript">
+		function hola(){	
+			alert('hola');
+		}
 		$(document).ready(function(){
 			$('#widget-date').Corpodate({
 				validinit : '2012-5-19',
 				initrange: '2012-8-20',
-				endrange : '2012-8-26'
+				endrange : '2012-8-26',
+				onsuccess: hola,
 			});
 
 			$('#widget-date-2').Corpodate({

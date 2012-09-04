@@ -9,7 +9,8 @@
 					month_names: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
 					month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 				},
-				title : 'Calendar'
+				title : 'Calendar',
+				onsuccess:function(){}
 			};
 			var options =  $.extend(defaults,options);
 
@@ -159,6 +160,7 @@
 		  	search.click(function(){
 		  		$('.corpodate-container').hide();
 					$(parent+' .corpodate-range-dates').html($('#'+$(obj).attr('id')+' .txt-initdate').val()+" - "+ $(parent+' .txt-enddate').val());
+					opt.onsuccess();
 		  	});
 
 		  	formsearch.appendTo(asidecalendar);
