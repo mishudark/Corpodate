@@ -1,0 +1,212 @@
+/* CSS Document */
+
+/* =============================================================================
+   WIDETS
+   ========================================================================== */
+/* Calendar ------------------------------------------------------------------*/
+.corpodate-range-dates{
+	border:1px solid #ccc;
+	padding:4px;
+	color:#444;
+	width:200px;
+	font-style:italic;
+}
+.corpodate-container{
+	display:none;
+	aside.calendar {
+		display: block;
+		padding: 2px 5px 5px 5px;
+		width: 240px;
+		background-color: darken(#e2e2e2, 5%);
+		border: 1px solid darken(#e2e2e2, 20%);
+		header {
+			height: 20px;
+			padding: 5px;
+			h3 {
+				float: left;
+				margin: 0;
+			}
+		}
+		ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+		a {
+			text-decoration: none;
+			color: #ECECEC;
+			&.close {
+				float: right;
+				height: 18px;
+				width: 18px;
+				background-color: #000;
+				text-align: center;
+				&:hover {
+					background-color: lighten(#000, 20%);
+					cursor: pointer;
+				}
+			}
+		}
+		.top{
+			.txt{
+				color: #555;
+				background: #EEE;
+				border: 1px solid #AAA;
+				padding: 3px;
+				width: 80px;
+				margin-left: 3px;
+			}
+			.search{
+				background:black;
+				color:white;
+				border:1px solid #444;
+				padding:3px;
+			}
+		}
+
+		.outer {
+			background-color: #FFF;
+			ul.date_filter {
+				li {
+					&:first-child {
+						float: left;
+					}
+					font-size: 0.95em;
+					float: right;
+					padding: 4px;
+				}
+			}
+			ul.title {
+				clear: both;
+				padding-right: 20px;
+				li {
+					font-size: 0.9em;
+					float: right;
+					padding: 4px;
+					width: 30px;
+				}
+				li + li {
+					width: 80px;
+				}
+				li + li + li {
+					width: 30px;
+				}
+			}
+			.inner {
+				clear: both;
+				overflow: auto;
+				height: 200px;
+				background-color: #FFF;
+				border-top: 2px solid #007EC4;
+				margin-top: 5px;
+				
+				ul.quarter {
+					position: relative;
+					a.quarter {
+						background-color: darken(#007EC4, 5%);
+						display: inline-block;
+						width: 30px;
+						font-variant: small-caps;
+						position: absolute;
+						overflow: hidden;
+						bottom: 0;
+						top: 0;
+						color: #FFF;
+						&:hover,&.selected{
+							background-color: darken(#007EC4, 30%);
+							cursor: pointer;
+						}
+						span {
+							-webkit-transform: rotate(-90deg);
+							-moz-transform: rotate(-90deg);
+							-ms-transform: rotate(-90deg);
+							-o-transform: rotate(-90deg);
+							transform: rotate(-90deg);
+							font-size: 1.5em;
+							margin-top: 100px;
+							display:block;
+							white-space: nowrap;
+						}					
+					}	
+					li {
+						
+						margin-left: 30px;
+					}
+				}
+				ul.month {
+					position: relative;
+					border-bottom: 1px solid #007EC4;
+					margin-bottom: 2px;			
+					a.month {
+						background-color: #007EC4;
+						display: inline-block;
+						font-variant: small-caps;
+						position: absolute;
+						top: 0;
+						bottom: 0;
+						overflow: hidden;
+						width: 30px;
+						color: #FFF;
+						&:hover,&.selected{
+							background-color: darken(#007EC4, 20%);
+							cursor: pointer;
+						}					
+						span {
+							-webkit-transform: rotate(-90deg);
+							-moz-transform: rotate(-90deg);
+							-ms-transform: rotate(-90deg);
+							-o-transform: rotate(-90deg);
+							transform: rotate(-90deg);
+							font-size: 1.5em;
+							margin-top: 30px;
+							display:block;
+							white-space: nowrap;
+						}
+					}		
+					li {
+						background-color: #FFF;
+						display: block;
+						margin: 0 0 0 30px;
+						height: 20px;
+							&:hover {
+								cursor: pointer;
+								color: #FFF;
+								background-color: lighten(#007EC4, 10%);
+								a {
+									color: #FFF;
+								}
+							}
+							&.selected{
+								background:#eee;
+								&:hover{
+									a{
+										color:#555;
+									}
+								}
+							}
+						a {
+							color: #000;
+							span {
+								width: 10px;
+								padding-left: 10px;
+								display: inline-block;
+							}
+							span + span {
+								width: 80px;
+							}
+							span + span + span {
+								width: 30px;
+							}						
+
+						}
+					}
+				}		
+			}
+		}
+	}
+
+	.ie8 .calendar .outer .inner ul.quarter a.quarter span,
+	.ie8 .calendar .outer .inner ul.month a.month span {
+		filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+	}
+}

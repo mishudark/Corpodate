@@ -8,7 +8,8 @@
 				datelocale : {
 					month_names: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
 					month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-				}
+				},
+				title : 'Calendar'
 			};
 			var options =  $.extend(defaults,options);
 
@@ -51,10 +52,8 @@
 					$(id+' .txt-enddate').val(formatDate(dateB));
 
   		};
-
-	  	return this.each(function(){
-		  	var opt  = options;
-		  	var obj = $(this);
+  		buildCalendar = function(){
+	  		var opt  = options;
 
 		  	var idate = new Date(opt.initrange);
 		  	var fdate = new Date(opt.endrange);
@@ -66,130 +65,167 @@
 		  	var validWeek = getWeekNumber(validinit);
 		  	var year = idate.getFullYear();
 
-		  	var element = $('<div>').addClass('range-dates').html(formatDate(opt.initrange)+" - "+formatDate(opt.endrange));
-
-		  	element.click(function(){$('#'+$(obj).attr('id')+' .corpodate-container').show();});
-
-		  	var calendar = $("<div>").addClass('corpodate-container');
-		  	var ulquarter = $("<ul>").addClass('quarter-ul');
-		  
-
+		  	var innercontainer = $("<div>").attr({'class':'inner'});
 		  	var dayofweek = findFirtDayofYear(year,year+"-1-1");
 
 		  	for(i in options.datelocale.month_names){
 		  		if(i%3===0){
-		  			var liquarter=$("<li/>");
+		  			var mainul=$("<ul/>").addClass('quarter');
 		  			quarter = (i/3+1);
-		  			var linkquarter = $("<a>").attr({'href':'javascript:void(0)','id':'quarter'+quarter,'class':'quarter-selection disabled'}).text("Quarter "+(i/3+1)).appendTo(liquarter);
+		  			var linkquarter = $("<a>").attr({'href':'javascript:void(0)','id':'quarter-'+quarter,'class':'quarter disabled'}).html("<span>"+"Quarter "+(i/3+1)+"</span>").appendTo(mainul);
 		  		}
-
- 			  	var ulmonth = $("<ul>").addClass('month-ul');
-		  		var limonth = $("<li/>");
-		  		var linkmonth = $("<a>").attr({'href':'javascript:void(0)','class':'month-selection','id':options.datelocale.month_names_short[i]}).text(options.datelocale.month_names[i]).appendTo(limonth);
+		  		var limainul = $("<li>");
+ 			  	var ulmonth = $("<ul>").addClass('month');
+		  		var linkmonth = $("<a>").attr({'href':'javascript:void(0)','title':options.datelocale.month_names[i],'class':'month','id':options.datelocale.month_names_short[i]}).html("<span>"+options.datelocale.month_names_short[i]+"<span>").appendTo(ulmonth);
 
 		  		inthismonth= true;
 		  		
-		  		var ulweek = $("<ul>").addClass('week-ul');
+		  		var ulweek = $("<ul>").addClass('week');
 		  		var active = false;
 		  		while(inthismonth){
-				  	var liweek = $("<li/>");
+				  	var limonth = $("<li/>");
 
 			 			var weekdata = getWeekNumber(dayofweek);
 			 			if(weekdata.year==parseInt(year)){
 			 				endweek = addDays(dayofweek,+6);
-			 				$("<input>").attr({'type':'hidden','class':'init-week-'+weekdata.week}).val(dayofweek).appendTo(liweek);
-			 				$("<input>").attr({'type':'hidden','class':'end-week-'+weekdata.week}).val(endweek).appendTo(liweek);
-			 				$("<input>").attr({'type':'hidden','class':'value-week-'+weekdata.week}).val(weekdata.week).appendTo(liweek);
+			 				$("<input>").attr({'type':'hidden','class':'init-week-'+weekdata.week}).val(dayofweek).appendTo(limonth);
+			 				$("<input>").attr({'type':'hidden','class':'end-week-'+weekdata.week}).val(endweek).appendTo(limonth);
+			 				$("<input>").attr({'type':'hidden','class':'value-week-'+weekdata.week}).val(weekdata.week).appendTo(limonth);
 			 				statusweek = (weekdata.week>=validWeek.week  && weekdata.week <=currentWeek.week)?'enabled':'disabled';
 							if(statusweek=='enabled'){
 								active = true;
 							}
-			  			$("<a>").attr({'href':'javascript:void(0)','class': ('week-selection weekof-quarter'+quarter+' weekof-'+options.datelocale.month_names_short[i]+" "+statusweek)+' week-'+weekdata.week,'id':'week-'+weekdata.week}).text("Week "+weekdata.week).appendTo(liweek);
-			  			liweek.appendTo(ulweek);	
+			  			$("<a>").attr({'href':'javascript:void(0)','class': ('week quarter-'+quarter+' month-'+options.datelocale.month_names_short[i]+" "+statusweek)+' week-'+weekdata.week,'id':'week-'+weekdata.week}).text(weekdata.week).appendTo(limonth);
+			  			limonth.addClass(statusweek);
+			  			limonth.appendTo(ulmonth);	
 			  		}		  		
 		  			dayofweek = addDays(dayofweek,+7);
 			  		inthismonth= dayofweek.getMonth()===parseInt(i)?true:false;
 		  		}
+
 		  		if(!active){
-		  			linkmonth.addClass('disabled');
+		  			linkmonth.addClass('disabled');		  			
 		  		}else{
 		  			linkmonth.addClass('enabled');
+		  			ulmonth.addClass('active');
 		  			linkquarter.removeClass('disabled');
 		  			linkquarter.addClass('enabled');
 		  		}
 		  		ulweek.appendTo(limonth);
 
 		  		limonth.appendTo(ulmonth);
-		  		ulmonth.appendTo(liquarter);
+		  		ulmonth.appendTo(limainul);
+		  		limainul.appendTo(mainul);
 		  		if(i%3===0){
-		  			liquarter.appendTo(ulquarter);
+		  			mainul.appendTo(innercontainer);
 		  		}
 		  	}
+		  	return innercontainer;
+  		};
 
-		  	formsearch = $("<div>");
-		  	$("<input>").attr({'type':'input','class':'inputdate txt-initdate'}).val(formatDate(idate)).appendTo(formsearch);
-				$("<input>").attr({'type':'input','class':'inputdate txt-enddate'}).val(formatDate(fdate)).appendTo(formsearch);	
-				var search = $("<input>").attr({'type':'button','class':'searchdate','id':'search-date'}).val("Search").appendTo(formsearch);	
+
+	  	return this.each(function(){
+		  	var opt  = options;
+		  	var obj = $(this);
+		  	var parent = '#'+$(obj).attr('id');
+
+		  	var idate = new Date(opt.initrange);
+		  	var fdate = new Date(opt.endrange);
+		  
+		  	var element = $('<div>').addClass('corpodate-range-dates').html(formatDate(opt.initrange)+" - "+formatDate(opt.endrange));
+				element.click(function(){$(parent+' .corpodate-container').show();});
+
+		  	var calendar = $("<div>").addClass('corpodate-container');
+		  	
+		  	var asidecalendar = $("<aside/>").addClass('calendar');
+
+		  	var headercalendar = $("<header/>");
+		  	$("<h3/>").text(opt.title).appendTo(headercalendar);
+		  	var close = $("<a/>").text("x").attr({'href':'javascript:void(0);','class':'close'});
+		  	close.click(function(){$(parent+' .corpodate-container').hide();});
+		  	close.appendTo(headercalendar);
+		  	headercalendar.appendTo(asidecalendar);
+
+		  	var outer = $("<div/>").addClass('outer');
+
+				var ulinsidecalendar = buildCalendar();
+				ulinsidecalendar.appendTo(outer);
+
+		  	formsearch = $("<div>").addClass('top');
+		  	$("<input>").attr({'type':'input','class':'txt txt-initdate','readonly':'readonly'}).val(formatDate(idate)).appendTo(formsearch);
+				$("<input>").attr({'type':'input','class':'txt txt-enddate','readonly':'readonly'}).val(formatDate(fdate)).appendTo(formsearch);	
+				var search = $("<input>").attr({'type':'button','class':'search searchdate','id':'search-date'}).val("Search").appendTo(formsearch);	
 
 		  	search.click(function(){
 		  		$('.corpodate-container').hide();
-					$('#'+$(obj).attr('id')+' .range-dates').html($('#'+$(obj).attr('id')+' .txt-initdate').val()+" - "+ $('#'+$(obj).attr('id')+' .txt-enddate').val());
+					$(parent+' .corpodate-range-dates').html($('#'+$(obj).attr('id')+' .txt-initdate').val()+" - "+ $(parent+' .txt-enddate').val());
 		  	});
 
-		  	formsearch.appendTo(calendar);
-		  	ulquarter.appendTo(calendar);
+		  	formsearch.appendTo(asidecalendar);
+		  	outer.appendTo(asidecalendar);
+		  	asidecalendar.appendTo(calendar);
 
 		  	$(obj).append(element);
 		  	$(obj).append(calendar);
+
 		  	var click = true;
-		  	var dateA =null;
-		  	var valueA = 0;
+		  	var dateA = null;
 		  	var dateB = null;
+		  	var valueA = 0;
 		  	var valueB = 0;
 		  	
-		  	$('#'+$(obj).attr('id')+' .month-selection.enabled').live("click",function(){
-						$('.week-selection.selected').removeClass('selected');
-		  			$('.weekof-'+$(this).attr('id')+'.enabled').addClass('selected');
-		  			valueA =  $('.value-'+$('.weekof-'+$(this).attr('id')+".enabled:first").attr('id')).val();
-		  			valueB = 	$('.value-'+$('.weekof-'+$(this).attr('id')+".enabled:last").attr('id')).val();
+		  	$(parent+' .month.enabled').live("click",function(){
+		  			var monthclass = '.month-'+$(this).attr('id');
+						$(parent+' li.selected,'+parent+' a.selected').removeClass('selected');
+		  			$(this).addClass('selected');
+		  			$(parent+' '+monthclass+'.enabled').parent().addClass('selected');
+
+		  			valueA =  $('.value-'+$(monthclass+".enabled:first").attr('id')).val();
+		  			valueB = 	$('.value-'+$(monthclass+".enabled:last").attr('id')).val();
 		  			if(typeof valueA!="undefined")
-		  				setTextDate('#'+$(obj).attr('id'),valueA,valueB);
+		  				setTextDate(parent,valueA,valueB);
 		  	});
 
-		  	$('#'+$(obj).attr('id')+' .quarter-selection.enabled').live("click",function(){
-						$('.week-selection.selected').removeClass('selected');
-		  			$('.weekof-'+$(this).attr('id')+'.enabled').addClass('selected');
-		  			valueA =  $('.value-'+$('.weekof-'+$(this).attr('id')+".enabled:first").attr('id')).val();
-		  			valueB = 	$('.value-'+$('.weekof-'+$(this).attr('id')+".enabled:last").attr('id')).val();
+		  	$(parent+' .quarter.enabled').live("click",function(){
+						var quarterclass = '.'+$(this).attr('id');
+						$(parent+' li.selected,'+parent+' a.selected').removeClass('selected');
+						$(this).addClass('selected');
+		  			$(parent+' '+quarterclass+'.enabled').parent().addClass('selected');
+
+		  			valueA =  $('.value-'+$(quarterclass+".enabled:first").attr('id')).val();
+		  			valueB = 	$('.value-'+$(quarterclass+".enabled:last").attr('id')).val();
 		  			if(typeof valueA!="undefined")
-		  				setTextDate('#'+$(obj).attr('id'),valueA,valueB);
+		  				setTextDate(parent,valueA,valueB);
 		  	});
 
-		  	$('#'+$(obj).attr('id')+' .week-selection.enabled').live("click",function(){
-		  		if(click){
-		  				$('.week-selection.selected').removeClass('selected');
-		  				valueA = $('.value-'+$(this).attr('id')).val();
-		  				valueB = 0;
-		  				$(this).addClass('selected');
-		  				click = false;
-		  		}else{
-							dateB = $('.end-'+$(this).attr('id')).val();
-							valueB = $('.value-'+$(this).attr('id')).val();
-							click	= true;
-		  		}
-		  		if(valueB!=0){
-			  		var tmp = valueA;
-			  		if(valueB<valueA){
-			  			valueA = valueB;
-			  			valueB = tmp;
+		  	$(parent+' .month.active li.enabled').live("click",function(){
+			  		if(click){
+			  				link = $(this).find("a");
+			  				valueA = $('.value-'+$(link).attr('id')).val();
+			  				valueB = 0;
+			  				$(parent+' li.selected').removeClass('selected');
+			  				$(this).addClass('selected');
+			  				click = false;
+			  		}else{
+			  				link = $(this).find("a");
+								dateB = $('.end-'+$(link).attr('id')).val();
+								valueB = $('.value-'+$(link).attr('id')).val();
+								click	= true;
 			  		}
-			  		for(i=parseInt(valueA);i<=parseInt(valueB);i++){
-			  			$('#'+$(obj).attr('id')+' .week-'+i).addClass('selected');
+
+			  		if(valueB!=0){
+				  		var tmp = valueA;
+				  		if(valueB<valueA){
+				  			valueA = valueB;
+				  			valueB = tmp;
+				  		}
+				  		for(i=parseInt(valueA);i<=parseInt(valueB);i++){
+				  			$(parent+' .week-'+i).parent().addClass('selected');
+				  		}
 			  		}
-		  		}
-		  		if(click){
-		  			setTextDate('#'+$(obj).attr('id'),valueA,valueB);
-		  		}
+			  		if(click){
+			  			setTextDate(parent,valueA,valueB);
+			  		}
 		  	});
 
 	  	});
