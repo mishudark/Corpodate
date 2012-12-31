@@ -89,24 +89,6 @@
 
   		buildCalendar = function(validinit,idate,fdate){
 	  		var opt  = options;
-	  		/*
-	  		if(!opt.initrange){
-					d = new Date();
-  				day = d.getDay();
-      		diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
-      		fdate = initdate = new Date(d.setDate(diff));
-					
-					opt.initrange = initdate;
-					opt.endrange = addDays(fdate,+6);
-	  		}
-
-	  		var validinitdate =  parseISO8601(opt.validinit);
-
-		  	var idate = new Date(opt.initrange);
-		  	var fdate = new Date(opt.endrange);
-				*/
-			
-		  	//var validinit = new Date(validinitdate);
 		  	var currentDate = new Date();
 		  	var currentWeek = getWeekNumber(currentDate);
 
@@ -116,7 +98,6 @@
 		  	 
 		  	var dayofweek = findFirtDayofYear(year,parseISO8601(year+"-1-1"));
 		  	for(i =0;i<12;i++){
-
 		  		if(i%3===0){
 		  			var mainul=$("<ul/>").addClass('quarter');
 		  			quarter = (i/3+1);
@@ -156,7 +137,6 @@
 			  			limonth.addClass(statusweek);
 			  			limonth.appendTo(ulmonth);	
 			  		}		
-			  		  		
 		  			dayofweek = addDays(dayofweek,+7);
 			  		inthismonth= dayofweek.getMonth()===parseInt(i)?true:false;
 		  		}
