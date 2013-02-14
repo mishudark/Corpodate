@@ -16,10 +16,9 @@
 			var options =  $.extend(defaults,options);
 
 			parseISO8601 = function(dateStringInRange) {
-	  		IE='\v'=='v';
-	  		if(!IE){
-	  			return dateStringInRange;
-	  		}
+	  		//IE='\v'=='v';
+	  		if(typeof dateStringInRange !== 'string') return dateStringInRange;
+	  		
 				pedate=dateStringInRange.split("-");
 				dateStringInRange = pedate[0]+"-"+((pedate[1].length==1?'0':'')+pedate[1])+"-"+((pedate[2].length==1?'0':'')+pedate[2]);
 		    var isoExp = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/,
@@ -65,7 +64,7 @@
   		};
 
   		formatDate = function(date){
-					var d = new Date(date);
+			var d = new Date(date);
     			var curr_date = d.getDate();
     			var curr_month = d.getMonth() + 1; //Months are zero based
     			var curr_year = d.getFullYear();
