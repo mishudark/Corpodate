@@ -65,14 +65,14 @@
   		};
 
   		formatDate = function(date){
-					var d = new Date(date);
+			var d = parseISO8601(date);
     			var curr_date = d.getDate();
     			var curr_month = d.getMonth() + 1; //Months are zero based
     			var curr_year = d.getFullYear();
     			return (curr_date<10?"0":"")+curr_date + "/" + (curr_month<10?"0":"") + curr_month + "/" + curr_year;
   		};
   		formatShortDate = function(date){
-					var d = new Date(date);
+			var d = parseISO8601(date);
     			var curr_date = d.getDate();
     			var curr_month = d.getMonth() + 1; //Months are zero based
     			var curr_year = d.getFullYear();
